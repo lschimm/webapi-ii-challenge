@@ -30,9 +30,17 @@ router.post("/posts", (req, res) => {
   }
 });
 
-// Trying to use Middleware (async and await) below
-// router.post("/api/posts" (req, res) => {
-
+// Trying to useing async/await && try/catch below
+// router.post('/posts', async (req, res) => {
+//   try {
+//     const postItem = await Posts.insert(req.body);
+//     res.status(201).json(postItem);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({
+//       error: 'There was an error while saving the post to the database'
+//     });
+//   }
 // });
 
 // DELETE
@@ -43,9 +51,40 @@ router.delete("/posts/:id", (req, res) => {
     } else {
       res
         .status(404)
-        .json(`{ message: "The post with the specified ID does not exist." }`);
+        .json({ message: "The post with the specified ID does not exist." });
     }
   });
+});
+
+// PUT
+// updates the a new title and content on existing id
+
+router.put("/posts/:id", (req, res) => {
+  const id = req.params.id;
+  const { title, contents } = req.body;
+
+  if (!title || !contents) {
+    res
+      .status(400)
+      .json(`{ error: "The post information could not be modified." }`);
+  } else {
+    DB.update(id, { title, contents })
+      .then(post => {
+        res.status(200).json(post);
+      })
+      .catch(error => {
+        res
+          .status(500)
+          .json(`{ error: "The post information could not be modified." }`);
+      });
+  }
+
+  // DB.update(id, { title, contents }).then(post => {
+  //   res.status(200).json(post);
+  // })
+  // .catch(error => {
+  //   res.
+  // })
 });
 
 module.exports = router;
