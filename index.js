@@ -6,7 +6,7 @@ const server = express();
 
 server.get("/", (req, res) => {
   res.send(`
-    <h2>Trying this out</h2>
+    <h2>Trying this out.</h2>
   `);
 });
 

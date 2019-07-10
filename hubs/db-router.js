@@ -1,6 +1,6 @@
 const express = require("express");
 
-const DB = require("../data/db");
+const DB = require("../data/db.js");
 
 const router = express.Router();
 
@@ -15,5 +15,24 @@ router.get("/", async (req, res) => {
     res.status(500).json({ message: "i have no clue" });
   }
 });
+
+// create a post using the info sent inside the `request body`
+
+// POST yesterday's way...?
+router.post("/posts", (req, res) => {
+  const { title, contents } = req.body;
+  if (!title || !contents) {
+    res
+      .status(400)
+      .json(
+        `{ errorMessage: "Please provide title and contents for the post." }`
+      );
+  }
+});
+
+// Trying to use Middleware (async and await) below
+// router.post("/api/posts" (req, res) => {
+
+// });
 
 module.exports = router;
