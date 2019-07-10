@@ -35,4 +35,17 @@ router.post("/posts", (req, res) => {
 
 // });
 
+// DELETE
+router.delete("posts/:id", (req, res) => {
+  DB.remove(req.params.id).then(deleted => {
+    if (deleted && deleted > 0) {
+      res.status(200).json({ message: "deleted" });
+    } else {
+      res
+        .status(404)
+        .json(`{ message: "The post with the specified ID does not exist." }`);
+    }
+  });
+});
+
 module.exports = router;
